@@ -272,69 +272,20 @@ namespace Assignment
             }
 
         }
-        // dose and HTTP request for BitCoin api
-        private static async Task<string> GetBitcoinPrice()
-        {
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    // Send a GET request to the Bitcoin price API.
-                    HttpResponseMessage response = await client.GetAsync("https://api.coindesk.com/v1/bpi/currentprice/BTC.json");
-
-                    // Ensure the response is successful.
-                    response.EnsureSuccessStatusCode();
-
-                    // Read the response content as a string.
-                    string responseBody = await response.Content.ReadAsStringAsync();
-
-                    return responseBody;
-                }
-                catch (Exception ex)
-                {
-                    // Handle any exceptions that occur during the API request.
-                    Console.WriteLine($"An error occurred while retrieving the Bitcoin price: {ex.Message}");
-                    return null;
-                }
-            }
-        }
+       
 
         //get the BTC price from API
-        private static async Task PrintBitcoinPrice()
-        {
-            try
-            {
-                // Retrieve the Bitcoin price from the API.
-                string bitcoinPrice = await GetBitcoinPrice();
-
-                if (bitcoinPrice != null)
-                {
-                    // Extract the price from the API response.
-                    string price = bitcoinPrice.Substring(bitcoinPrice.IndexOf("rate") + 7, 10);
-
-                    // Print the Bitcoin price.
-                    Console.WriteLine($"The current Bitcoin price is: {price} USD");
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions that occur during the printing process.
-                Console.WriteLine($"An error occurred while printing the Bitcoin price: {ex.Message}");
-            }
-        }
-    
+       
 
 
     //sets up games
     static void GameSetup()
         {
 
-
+            Console.Clear();
 
             // console setup
             Console.Title = "Deal or no Deal";
-            Console.WindowHeight = Console.LargestWindowHeight;
-            Console.WindowWidth = Console.LargestWindowWidth;
             Console.ForegroundColor = ConsoleColor.Green;
 
 
@@ -357,7 +308,7 @@ namespace Assignment
         public static void GUI()
         {
 
-
+            Console.Clear();
             // set up verables 
             int caseOnRow = 8, startcase = 0, casenum = 0;
             string[] caseArt = new string[5]
@@ -370,21 +321,11 @@ namespace Assignment
 };
 
 
-
+            Thread.Sleep(100);
+            Console.Clear();
             Console.Clear();
             Console.WriteLine("                                                                                               ");
-            Console.WriteLine(@"      
-
-
-                       _____  ______          _             ____  _____        _   _  ____       _____  ______          _             _____          __  __ ______ 
-                      |  __ \|  ____|   /\   | |           / __ \|  __ \      | \ | |/ __ \     |  __ \|  ____|   /\   | |           / ____|   /\   |  \/  |  ____|
-                      | |  | | |__     /  \  | |          | |  | | |__) |     |  \| | |  | |    | |  | | |__     /  \  | |          | |  __   /  \  | \  / | |__   
-                      | |  | |  __|   / /\ \ | |          | |  | |  _  /      | . ` | |  | |    | |  | |  __|   / /\ \ | |          | | |_ | / /\ \ | |\/| |  __|  
-                      | |__| | |____ / ____ \| |____      | |__| | | \ \      | |\  | |__| |    | |__| | |____ / ____ \| |____      | |__| |/ ____ \| |  | | |____ 
-                      |_____/|______/_/    \_\______|      \____/|_|  \_\     |_| \_|\____/     |_____/|______/_/    \_\______|      \_____/_/    \_\_|  |_|______|
-                                                                                                                                                                                                                                                                         
-");                                                                                 
-            Console.WriteLine("                                                                                               ");
+            title();
             Console.WriteLine("                                                                                               ");
 
 
@@ -407,6 +348,7 @@ namespace Assignment
                     //print left size 
                     LeftSide(casenum);
 
+
                     //prints one line of cases art for the amount of cases in the row 
                     DisplayCase(caseArt,startcase,caseOnRow,CaseRow);
 
@@ -424,6 +366,21 @@ namespace Assignment
 
         }
 
+        static void title()
+        {
+            Console.Clear();
+            Console.WriteLine(@"      
+
+
+                       _____  ______          _             ____  _____        _   _  ____       _____  ______          _             _____          __  __ ______ 
+                      |  __ \|  ____|   /\   | |           / __ \|  __ \      | \ | |/ __ \     |  __ \|  ____|   /\   | |           / ____|   /\   |  \/  |  ____|
+                      | |  | | |__     /  \  | |          | |  | | |__) |     |  \| | |  | |    | |  | | |__     /  \  | |          | |  __   /  \  | \  / | |__   
+                      | |  | |  __|   / /\ \ | |          | |  | |  _  /      | . ` | |  | |    | |  | |  __|   / /\ \ | |          | | |_ | / /\ \ | |\/| |  __|  
+                      | |__| | |____ / ____ \| |____      | |__| | | \ \      | |\  | |__| |    | |__| | |____ / ____ \| |____      | |__| |/ ____ \| |  | | |____ 
+                      |_____/|______/_/    \_\______|      \____/|_|  \_\     |_| \_|\____/     |_____/|______/_/    \_\______|      \_____/_/    \_\_|  |_|______|
+                                                                                                                                                                                                                                                                         
+");
+        }
         //prints the money on left 
         static void LeftSide(int casenum)
         {
@@ -513,8 +470,8 @@ namespace Assignment
         static void OpenCases()
         {
             bool Deal = false;
+            double BTC = 0.000017,BTCP;
             int offer = 0, lastCase = 0;
-            double BTC = Convert.ToDouble(PrintBitcoinPrice()) ,BTCP;
 
             do
             {
